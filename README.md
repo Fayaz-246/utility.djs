@@ -1,0 +1,71 @@
+# Utility.djs
+
+## About Utility.djs
+
+> Made for setting up a discord.js bot in the quickest way!
+
+## Installation
+
+```css
+npm install utility.djs discord.js
+```
+
+## Usage
+
+### Creating a utility client
+
+```js
+const { Client, GatewayIntentBits } = require("discord.js");
+const { UtilityClient } = require("utility.djs");
+
+const djsClient = new Client({
+  intents: Object.keys(GatewayIntentBits),
+});
+
+const utilClient = new UtilityClient({
+  client: djsClient,
+  token: "your token",
+  EmbedColor: "#FFFFFF", // Embed Color for the bot
+});
+```
+
+Simple as that!
+
+### Setting presence
+
+```js
+utilClient.setPresence({
+  message: `Bot ready!`, //  What message it will log when the bot is online
+  state: "idle", // States such as "online", "dnd", "invis", "idle"
+  activities: {
+    type: "watching", // Current Types "playing", "listening", "competing", "watching"
+    text: "youtube", // What it will display after the Type in this code it would display Watching youtube
+  },
+});
+```
+
+### Creating Event & Interaction handlers
+
+```js
+utilClient.interactionHandler(`./commands`, "your client id"); // ./commands is the path. FS TYPE PATH
+utilClient.eventHandler(`./events`); // Same here
+```
+
+## Handling interactions
+
+> Create an event in your events folder with the following code
+
+```js
+const { interactionReciver } = require("utility.djs");
+
+module.exports = {
+  name: `interactionCreate`,
+  async execute(interaction, client) {
+    await interactionReciver(client, interaction);
+  },
+};
+```
+
+## Thats it! You can now make commands as you want.
+
+- Note the command handler uses sub folders while the event handler does not!

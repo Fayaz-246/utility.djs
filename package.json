@@ -1,0 +1,24 @@
+{
+  "name": "utility.djs",
+  "version": "0.0.14",
+  "description": "A utility package for discord.js",
+  "main": "package.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fayaz-246/utility.djs.git"
+  },
+  "author": "GhostDev",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Fayaz-246/utility.djs/issues"
+  },
+  "homepage": "https://github.com/Fayaz-246/utility.djs#readme",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "discord.js": "^14.13.0"
+  }
+}
