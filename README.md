@@ -1,7 +1,9 @@
 # Utility.djs
 
+<div align="centre">
  <a herf="https://www.npmjs.com/package/@ghostdevdbd/simply.djs">[![Downloads](https://img.shields.io/npm/dt/utility.djs.svg?maxAge=3600)](https://www.npmjs.com/package/utility.djs)<a/>
   <a href="https://www.npmjs.com/package/utility.djs"><img src="https://img.shields.io/npm/v/utility.djs.svg?maxAge=3600" alt="NPM version" /></a>  
+<div>
 
 ## About Utility.djs
 
@@ -47,26 +49,40 @@ utilClient.setPresence({
 });
 ```
 
-### Creating Event & Interaction handlers
+### Creating Event, Interaction, Button handlers
 
 ```js
 utilClient.interactionHandler(`./commands`, "your client id"); // ./commands is the path. FS TYPE PATH
 utilClient.eventHandler(`./events`); // Same here
+utilClient.buttonHandler(`./buttons`); // also here
 ```
 
-## Handling interactions
+## Handling interactions & buttons
 
 > Create an event in your events folder with the following code
 
 ```js
-const { interactionReciver } = require("utility.djs");
+const { interactionReciver, buttonReciver } = require("utility.djs");
 
 module.exports = {
   name: `interactionCreate`,
   async execute(interaction, client) {
     await interactionReciver(client, interaction);
+    /* If you have buttons with your utilClient */
+    await buttonReciver;
   },
 };
+```
+
+## Connecting to mongo
+
+```js
+const { Connection } = require("utility.djs");
+const connection = new Connection("YOUR MONGO URI");
+connection.connect();
+connection.onConnection("The message to log when connect to mongo.");
+connection.onDisconnect("The message to log when disconnect from mongo.");
+connection.onError("The message to log when an error occurs.");
 ```
 
 ## Thats it! You can now make commands as you want.

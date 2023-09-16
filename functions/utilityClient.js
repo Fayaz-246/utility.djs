@@ -125,6 +125,18 @@ class UtilityClient {
       }
     })();
   }
+
+  buttonHandler(path) {
+    if (!path) throw Error("INVALID PATH [UTILITY.DJS]");
+    this.client.buttons = new Collection();
+    const buttonFolder = fs.readdirSync(path);
+    for (const file of buttonFolder) {
+      const button = require(`../../.${path}/${file}`);
+      if ("execute" in button && "data" in button && button.data.name) {
+        this.client.buttons.set(button.data.name, button);
+      }
+    }
+  }
 }
 
 module.exports = { UtilityClient };
