@@ -1,6 +1,6 @@
 {
   "name": "utility.djs",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "A utility package for discord.js",
   "main": "package.js",
   "scripts": {
