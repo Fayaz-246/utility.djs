@@ -1,7 +1,7 @@
 # Utility.djs
 
 <div align="centre">
- <a herf="https://www.npmjs.com/package/@ghostdevdbd/simply.djs">[![Downloads](https://img.shields.io/npm/dt/utility.djs.svg?maxAge=3600)](https://www.npmjs.com/package/utility.djs)<a/>
+ <a herf="https://www.npmjs.com/package/@ghostdevdbd/simply.djs">[![Downloads](https://img.shields.io/npm/dt/utility.djs.svg?maxAge=3600)](https://www.npmjs.com/package/utility.djs)</a>
   <a href="https://www.npmjs.com/package/utility.djs"><img src="https://img.shields.io/npm/v/utility.djs.svg?maxAge=3600" alt="NPM version" /></a>  
 <div>
 
