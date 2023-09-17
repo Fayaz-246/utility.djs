@@ -1,7 +1,7 @@
 # Utility.djs
 
 <div>
-<a herf="https://www.npmjs.com/package/utility.djs">[![Downloads](https://img.shields.io/npm/dt/utility.djs.svg?maxAge=3600)](https://www.npmjs.com/package/@ghostdevdbd/simply.djs)</a>
+<a herf="https://www.npmjs.com/package/utility.djs"><img src="https://img.shields.io/npm/dt/utility.djs.svg?maxAge=3600" alt="DOWNLOADS"></a>
   <a href="https://www.npmjs.com/package/utility.djs"><img src="https://img.shields.io/npm/v/utility.djs.svg?maxAge=3600" alt="NPM version" /></a>  
 </div>
 
@@ -69,7 +69,7 @@ module.exports = {
   async execute(interaction, client) {
     await interactionReciver(client, interaction);
     /* If you have buttons with your utilClient */
-    await buttonReciver;
+    await buttonReciver(client, interaction);
   },
 };
 ```
@@ -83,6 +83,34 @@ connection.connect();
 connection.onConnection("The message to log when connect to mongo.");
 connection.onDisconnect("The message to log when disconnect from mongo.");
 connection.onError("The message to log when an error occurs.");
+```
+
+## Format of button and interaction files
+
+### Interaction
+
+```js
+const { SlashcommandBuilder } = require("discord.js");
+
+module.exports = {
+  data: new SlashcommandBuilder().setName("").setDescription(), // Just the discord.js slash command builder.
+  async execute(interaction, client) {
+    // your code
+  },
+};
+```
+
+### Buttons
+
+```js
+module.exports = {
+  data: {
+    name: "button customid",
+  },
+  async execute(interaction, client) {
+    // Your code
+  },
+};
 ```
 
 ## Thats it! You can now make commands as you want.

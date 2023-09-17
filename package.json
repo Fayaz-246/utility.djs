@@ -1,11 +1,14 @@
 {
   "name": "utility.djs",
-  "version": "0.0.18",
+  "version": "0.0.21",
   "description": "A utility package for discord.js",
   "main": "package.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "keywords": [
+    "discord",
+    "easy",
+    "discord.js",
+    "fast"
+  ],
   "type": "commonjs",
   "repository": {
     "type": "git",
