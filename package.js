@@ -1,6 +1,6 @@
-const { UtilityClient } = require("./functions/utilityClient");
-const { interactionReciver, buttonReciver } = require("./functions/tools");
-const { Connection } = require("./functions/connection");
+const { UtilityClient } = require("./code/classes/utilityClient");
+const { interactionReciver, buttonReciver } = require("./code/tools/tools");
+const { Connection } = require("./code/classes/connection");
 
 module.exports = {
   UtilityClient,

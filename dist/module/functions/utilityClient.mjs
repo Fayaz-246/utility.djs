@@ -1,5 +1,7 @@
 import { utilog } from "./utility-log.mjs";
 import fs from "fs";
+import { REST } from "@discordjs/rest";
+import { Routes } from "discord-api-types/v9";
 import { ActivityType, Events, Collection } from "discord.js";
 import chalk from "chalk";
 
@@ -71,8 +73,6 @@ export class UtilityClient {
     this.client.interactions = new Collection();
     this.client.interactionArray = [];
     (async () => {
-      const { REST } = require("@discordjs/rest");
-      const { Routes } = require("discord-api-types/v9");
       const commandFolders = fs.readdirSync(path);
       for (const folder of commandFolders) {
         const commandFiles = fs

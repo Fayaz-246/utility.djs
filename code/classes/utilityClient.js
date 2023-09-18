@@ -1,4 +1,4 @@
-const { utilog } = require("./utility-log");
+const { utilog } = require("../tools/utility-log");
 const fs = require("fs");
 const { ActivityType, Events, Collection } = require("discord.js");
 const chalk = require("chalk");
