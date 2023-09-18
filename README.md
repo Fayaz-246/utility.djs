@@ -8,6 +8,7 @@
 ## About Utility.djs
 
 > Made for setting up a discord.js bot in the quickest way!
+> UPDATE! ADDED MJS SUPPORT
 
 ## Installation
 
