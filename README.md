@@ -17,4 +17,4 @@ npm install utility.djs discord.js
 
 ## Usage
 
-> **You can learn how to use utility.djs [here](https://github.com/Fayaz-246/utility.djs/md/get-started.md)**
+> **You can learn how to use utility.djs [here](https://github.com/Fayaz-246/utility.djs/blob/main/md/get-started.md)**
