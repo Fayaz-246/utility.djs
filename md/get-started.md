@@ -125,6 +125,27 @@ connection.onDisconnect("The message to log when disconnect from mongo.");
 connection.onError("The message to log when an error occurs.");
 ```
 
+## Pre-made commands
+
+### Help command
+
+````js
+const { helpEmbed } = require('utility.djs')
+const { SlashCommandBuilder } = require('discord.js')
+
+module.exports = {
+  data: new SlashCommandBuilder().setName("help").setDescription("help command"),
+  async execute(interaction, client) {
+    interaction.reply({
+      embeds: [new helpEmbed({
+        client: client,
+        inline: false // true or false for the commands inline of the embed
+      })]
+    })
+  }
+}```
+
 ## Thats it! You can now make commands as you want.
 
 - Note the command handler uses sub folders while the event handler does not!
+````
