@@ -10,14 +10,10 @@ class UtilityClient {
     if (!obj.token) throw Error("INVALID TOKEN [UTILITY.DJS]");
     if (!obj.EmbedColor) throw Error("NO EMBED COLOR PROVIDED [UTILITY.DJS]");
 
-    console.log(utilog("Started creating Utililty Client...", "yellow"));
-
     this.client = obj.client;
     this.client.token = obj.token;
     this.client.EmbedColor = obj.EmbedColor;
     this.client.login();
-
-    console.log(utilog("Successfully created Utililty Client!", "green"));
   }
 
   setPresence(obj) {
@@ -52,7 +48,7 @@ class UtilityClient {
     if (type === "watching") typeOf = ActivityType.Watching;
 
     bot.once(Events.ClientReady, async () => {
-      console.log(`${chalk.blue(`[CLIENT.DJS]`)}  || ${obj.message}`);
+      console.log(chalk.blue(`${obj.message}`));
       bot.user.setPresence({
         status: stateOf,
         activities: [
@@ -79,9 +75,15 @@ class UtilityClient {
           .readdirSync(`${path}/${folder}`)
           .filter((f) => f.endsWith(".js"));
         for (const file of commandFiles) {
-          const command = require(`../../.${path}/${folder}/${file}`);
-          this.client.interactions.set(command.data.name, command);
-          this.client.interactionArray.push(command.data.toJSON());
+          const command = require(`../../../.${path}/${folder}/${file}`);
+          if (command.data && command.execute) {
+            this.client.interactions.set(command.data.name, command);
+            this.client.interactionArray.push(command.data.toJSON());
+          } else {
+            console.log(
+              chalk.yellow(`${command} is missing proptery "data" or "execute"`)
+            );
+          }
         }
       }
 
@@ -92,15 +94,17 @@ class UtilityClient {
       (async () => {
         try {
           console.log(
-            `${chalk.red(
-              `[CLIENT.DJS]`
-            )}  || Started refreshing slash commands...`
+            `${chalk.red(`/`)} ${chalk.redBright(
+              ` Started refreshing ${this.client.interactionArray.length} slash commands...`
+            )}`
           );
           await rest.put(Routes.applicationCommands(clientId), {
             body: this.client.interactionArray,
           });
           console.log(
-            `${chalk.green(`[CLIENT.DJS]`)}  || Refreshed slash commands!`
+            `${chalk.green(`/`)} ${chalk.greenBright(
+              `Refreshed ${this.client.interactionArray.length} slash commands!`
+            )}`
           );
         } catch (e) {
           console.log(e);
@@ -116,7 +120,7 @@ class UtilityClient {
     (async () => {
       for (const file of eventFiles) {
         const client = this.client;
-        const event = require(`../../.${path}/${file}`);
+        const event = require(`../../../.${path}/${file}`);
         if (event.one) {
           client.once(event.name, (...args) => event.execute(...args, client));
         } else {
@@ -131,9 +135,21 @@ class UtilityClient {
     this.client.buttons = new Collection();
     const buttonFolder = fs.readdirSync(path);
     for (const file of buttonFolder) {
-      const button = require(`../../.${path}/${file}`);
+      const button = require(`../../../.${path}/${file}`);
       if ("execute" in button && "data" in button && button.data.name) {
         this.client.buttons.set(button.data.name, button);
+      }
+    }
+  }
+
+  modalHandler(path) {
+    if (!path) throw Error("INVALID PATH [UTILITY.DJS]");
+    this.client.modals = new Collection();
+    const modalFolder = fs.readdirSync(path);
+    for (const file of modalFolder) {
+      const modal = require(`../../../.${path}/${file}`);
+      if ("execute" in modal && "data" in modal && modal.data.name) {
+        this.client.modals.set(modal.data.name, modal);
       }
     }
   }

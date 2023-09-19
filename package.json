@@ -1,6 +1,6 @@
 {
   "name": "utility.djs",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "description": "A utility package for discord.js",
   "main": "package.js",
   "keywords": [
@@ -9,7 +9,6 @@
     "discord.js",
     "fast"
   ],
-  "module": "dist/package.mjs",
   "type": "commonjs",
   "repository": {
     "type": "git",

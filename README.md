@@ -8,7 +8,6 @@
 ## About Utility.djs
 
 > Made for setting up a discord.js bot in the quickest way!
-> UPDATE! ADDED MJS SUPPORT
 
 ## Installation
 
@@ -56,6 +55,7 @@ utilClient.setPresence({
 utilClient.interactionHandler(`./commands`, "your client id"); // ./commands is the path. FS TYPE PATH
 utilClient.eventHandler(`./events`); // Same here
 utilClient.buttonHandler(`./buttons`); // also here
+utilClient.modalHandler(`./modals`); // mhm
 ```
 
 ## Handling interactions & buttons
@@ -63,7 +63,7 @@ utilClient.buttonHandler(`./buttons`); // also here
 > Create an event in your events folder with the following code
 
 ```js
-const { interactionReciver, buttonReciver } = require("utility.djs");
+const { interactionReciver, buttonReciver, modalReciver } = require("utility.djs");
 
 module.exports = {
   name: `interactionCreate`,
@@ -71,6 +71,8 @@ module.exports = {
     await interactionReciver(client, interaction);
     /* If you have buttons with your utilClient */
     await buttonReciver(client, interaction);
+    /* If you have modals with your utilClient */
+    await modalReciver(client, interaction);
   },
 };
 ```
@@ -101,7 +103,7 @@ module.exports = {
 };
 ```
 
-### Buttons
+### Buttons & Modals
 
 ```js
 module.exports = {

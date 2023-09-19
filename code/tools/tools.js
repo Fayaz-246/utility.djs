@@ -1,3 +1,5 @@
+const { InteractionType } = require("discord.js");
+
 /* Start of interaction reciver */
 const interactionReciver = async (client, interaction) => {
   if (!client) throw TypeError("INVALID INTERACTION [UTILITY.DJS]");
@@ -17,7 +19,7 @@ const interactionReciver = async (client, interaction) => {
   }
 };
 /* End of interaction reciver */
-
+/*-----------------------*/
 /* Start of Button Reciver */
 const buttonReciver = async (client, interaction) => {
   if (!client) throw TypeError("INVALID INTERACTION [UTILITY.DJS]");
@@ -38,5 +40,24 @@ const buttonReciver = async (client, interaction) => {
   }
 };
 /* End of Button Reciver */
+/*-----------------------*/
+/* Start of Modal Reciver */
 
-module.exports = { interactionReciver, buttonReciver };
+const modalReciver = async (client, interaction) => {
+  if (!client) throw TypeError("INVALID INTERACTION [UTILITY.DJS]");
+  if (!interaction) throw TypeError("INVALID INTERACTION [UTILITY.DJS]");
+  if (!interaction.type == InteractionType.ModalSubmit) return;
+  const { modals } = client;
+  const { customId } = interaction;
+  const modal = modals.get(customId);
+  if (!modal) return new Error("No code for this modal");
+  try {
+    await modal.execute(interaction, client);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+/* Emd of Modal Reciver */
+
+module.exports = { interactionReciver, buttonReciver, modalReciver };
