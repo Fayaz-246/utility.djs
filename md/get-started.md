@@ -105,12 +105,12 @@ module.exports = {
 };
 ```
 
-#### Buttons & Modals
+#### Buttons & Modals & Select Menus
 
 ```js
 module.exports = {
   data: {
-    name: "button customid",
+    name: "customid",
   },
   async execute(interaction, client) {
     // Your code
