@@ -1,4 +1,3 @@
-const { utilog } = require("../tools/utility-log");
 const fs = require("fs");
 const { ActivityType, Events, Collection } = require("discord.js");
 const chalk = require("chalk");
@@ -150,6 +149,18 @@ class UtilityClient {
       const modal = require(`../../../.${path}/${file}`);
       if ("execute" in modal && "data" in modal && modal.data.name) {
         this.client.modals.set(modal.data.name, modal);
+      }
+    }
+  }
+
+  selectMenuHandler(path) {
+    if (!path) throw Error("INVALID PATH [UTILITY.DJS]");
+    this.client.SelectMenus = new Collection();
+    const menuFolder = fs.readdirSync(path);
+    for (const file of menuFolder) {
+      const menu = require(`../../../.${path}/${file}`);
+      if ("execute" in menu && "data" in menu && menu.data.name) {
+        this.client.SelectMenus.set(menu.data.name, menu);
       }
     }
   }

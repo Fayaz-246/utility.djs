@@ -3,15 +3,17 @@ const {
   interactionReciver,
   buttonReciver,
   modalReciver,
-} = require("./code/tools/tools");
+  selectMenuReciver,
+} = require("./code/tools/recivers");
 const { helpEmbed } = require("./code/classes/help");
-const { Connection } = require("./code/classes/connection");
+const { Connector } = require("./code/classes/connection");
 
 module.exports = {
   UtilityClient,
-  Connection,
+  Connector,
   helpEmbed,
   interactionReciver,
   buttonReciver,
   modalReciver,
+  selectMenuReciver,
 };

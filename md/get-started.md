@@ -57,6 +57,7 @@ utilClient.interactionHandler(`./commands`, "your client id");
 utilClient.eventHandler(`./events`);
 utilClient.buttonHandler(`./buttons`);
 utilClient.modalHandler(`./modals`);
+utilClient.selectMenuHandler(`./menus`);
 ```
 
 > **All the file paths should be fs type not relative like the one you use with `require()`**
@@ -70,6 +71,7 @@ const {
   interactionReciver,
   buttonReciver,
   modalReciver,
+  selectMenuReciver,
 } = require("utility.djs");
 
 module.exports = {
@@ -80,6 +82,8 @@ module.exports = {
     await buttonReciver(client, interaction);
     /* If you have modals with your utilClient */
     await modalReciver(client, interaction);
+    /* If you have select menus with your utilClient */
+    await selectMenuReciver(client, interaction);
   },
 };
 ```
@@ -117,9 +121,8 @@ module.exports = {
 ## Connecting to mongoDB
 
 ```js
-const { Connection } = require("utility.djs");
-const connection = new Connection("YOUR MONGO URI");
-connection.connect();
+const { Connector } = require("utility.djs");
+const connection = new Connector("YOUR MONGO URI");
 connection.onConnection("The message to log when connect to mongo.");
 connection.onDisconnect("The message to log when disconnect from mongo.");
 connection.onError("The message to log when an error occurs.");

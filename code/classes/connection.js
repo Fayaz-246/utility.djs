@@ -1,12 +1,8 @@
 const mongo = require("mongoose");
 
-class Connection {
+class Connector {
   constructor(uri) {
     if (!uri) throw TypeError(`Invalid mongo URI`);
-    this.uri = uri;
-  }
-
-  connect() {
     mongo.connect(this.uri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -35,4 +31,4 @@ class Connection {
   }
 }
 
-module.exports = { Connection };
+module.exports = { Connector };
