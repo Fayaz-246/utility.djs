@@ -164,6 +164,25 @@ class UtilityClient {
       }
     }
   }
+
+  textCommandHandler(path) {
+    if (!path) throw Error("NO PATH PROVIDED [UTILITY.DJS]");
+    this.client.textCommands = new Collection();
+    const commandFolders = fs.readdirSync(path);
+    for (const folder of commandFolders) {
+      const commandFiles = fs
+        .readdirSync(`${path}/${folder}`)
+        .filter((f) => f.endsWith(".js"));
+      for (const file of commandFiles) {
+        const command = require(`../../../.${path}/${folder}/${file}`);
+        if (command.name && command.execute) {
+          this.client.textCommands.set(command.name, command);
+        } else {
+          console.log(chalk.yellow(`${command} is missing CommandBuilder();`));
+        }
+      }
+    }
+  }
 }
 
 module.exports = { UtilityClient };

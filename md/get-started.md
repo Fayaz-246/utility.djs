@@ -58,6 +58,7 @@ utilClient.eventHandler(`./events`);
 utilClient.buttonHandler(`./buttons`);
 utilClient.modalHandler(`./modals`);
 utilClient.selectMenuHandler(`./menus`);
+utilCLient.textCommandHanlder(`./textCommands`);
 ```
 
 > **All the file paths should be fs type not relative like the one you use with `require()`**
@@ -90,6 +91,25 @@ module.exports = {
 
 > _or if you don't use the event handler you can put that code with the `client.on("interactionCreate")....`_
 
+### Handling Messages
+
+> Create an event in your events folder with the following code
+
+```js
+const {
+  textCommandReciver
+} = require("utility.djs");
+
+module.exports = {
+  name: `messageCreate`,
+  async execute(message, client) {
+    await textCommandReciver(client, message '!')
+  },
+};
+```
+
+> '!' Can be replaced with your prefix
+
 ### Format of the files
 
 #### Interaction
@@ -103,6 +123,20 @@ module.exports = {
     // your code
   },
 };
+```
+
+#### Message
+
+```js
+const { CommandBuilder } = require("utility.djs");
+
+module.exports = new CommandBuilder({
+  name: "cmd-name",
+  description: "desc",
+  async execute(message, args, client) {
+    // your code
+  },
+});
 ```
 
 #### Buttons & Modals & Select Menus

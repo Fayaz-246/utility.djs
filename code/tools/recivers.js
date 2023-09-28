@@ -1,7 +1,7 @@
 const { InteractionType } = require("discord.js");
 /* Start of interaction reciver */
 const interactionReciver = async (client, interaction) => {
-  if (!client) throw TypeError("INVALID INTERACTION [UTILITY.DJS]");
+  if (!client) throw TypeError("INVALID CLIENT [UTILITY.DJS]");
   if (!interaction) throw TypeError("INVALID INTERACTION [UTILITY.DJS]");
   if (!interaction.type == InteractionType.ApplicationCommand) return;
   const command = client.interactions.get(interaction.commandName);
@@ -20,7 +20,7 @@ const interactionReciver = async (client, interaction) => {
 /*-----------------------*/
 /* Start of Button Reciver */
 const buttonReciver = async (client, interaction) => {
-  if (!client) throw TypeError("INVALID INTERACTION [UTILITY.DJS]");
+  if (!client) throw TypeError("INVALID CLIENT [UTILITY.DJS]");
   if (!interaction) throw TypeError("INVALID INTERACTION [UTILITY.DJS]");
   if (!interaction.isButton()) return;
   const { buttons } = client;
@@ -42,7 +42,7 @@ const buttonReciver = async (client, interaction) => {
 /* Start of Modal Reciver */
 
 const modalReciver = async (client, interaction) => {
-  if (!client) throw TypeError("INVALID INTERACTION [UTILITY.DJS]");
+  if (!client) throw TypeError("INVALID CLIENT [UTILITY.DJS]");
   if (!interaction) throw TypeError("INVALID INTERACTION [UTILITY.DJS]");
   if (!interaction.type == InteractionType.ModalSubmit) return;
   const { modals } = client;
@@ -61,7 +61,7 @@ const modalReciver = async (client, interaction) => {
 /* Start of Select-Menu Reciver */
 
 const selectMenuReciver = async (client, interaction) => {
-  if (!client) throw TypeError("INVALID INTERACTION [UTILITY.DJS]");
+  if (!client) throw TypeError("INVALID CLIENT [UTILITY.DJS]");
   if (!interaction) throw TypeError("INVALID INTERACTION [UTILITY.DJS]");
   if (!interaction.isSelectMenu()) return;
 
@@ -76,9 +76,33 @@ const selectMenuReciver = async (client, interaction) => {
   }
 };
 
+/* End of Select-Menu Reciver */
+/*-----------------------*/
+/* Start of Message Reciver */
+
+const textCommandReciver = async (client, message, prefix) => {
+  if (!client) throw TypeError("INVALID INTERACTION [UTILITY.DJS]");
+  if (!message) throw TypeError("INVALID MESSAGE [UTILITY.DJS]");
+  if (!prefix || !typeof prefix == "string")
+    throw TypeError("INVALID PREFIX [UTILITY.DJS]");
+  if (!message.content.startsWith(prefix) || !message.guild) return;
+
+  const args = message.content.slice(prefix.length).split(/ +/g);
+  const cmd = args.shift().toLowerCase();
+  const command = client.textCommands.get(cmd);
+  if (!command) return;
+  try {
+    command.execute(message, args, client);
+  } catch (e) {
+    console.error(e);
+    message.reply("Something went wrong while executing this command.");
+  }
+};
+
 module.exports = {
   interactionReciver,
   buttonReciver,
   modalReciver,
   selectMenuReciver,
+  textCommandReciver,
 };

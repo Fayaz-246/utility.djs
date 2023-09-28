@@ -4,9 +4,11 @@ const {
   buttonReciver,
   modalReciver,
   selectMenuReciver,
+  textCommandReciver,
 } = require("./code/tools/recivers");
 const { helpEmbed } = require("./code/classes/help");
 const { Connector } = require("./code/classes/connection");
+const { CommandBuilder } = require("./code/classes/Command");
 
 module.exports = {
   UtilityClient,
@@ -16,4 +18,6 @@ module.exports = {
   buttonReciver,
   modalReciver,
   selectMenuReciver,
+  textCommandReciver,
+  CommandBuilder,
 };
