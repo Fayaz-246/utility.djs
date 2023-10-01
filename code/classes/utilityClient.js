@@ -71,7 +71,11 @@ class UtilityClient {
     });
   }
 
-  interactionHandler(path, clientId) {
+  interactionHandler(obj) {
+    const path = obj.path;
+    const clientId = obj.clientId;
+    let loadingMsg = obj.loadingMessage;
+    let successMsg = obj.successMessage;
     if (!path) throw Error("NO PATH PROVIDED [UTILITY.DJS]");
     if (!clientId) throw Error("NO CLIENT ID PROVIDED [UTILITY.DJS]");
     this.client.interactions = new Collection();
@@ -100,22 +104,31 @@ class UtilityClient {
       const rest = new REST({
         version: "9",
       }).setToken(this.client.token);
-
+      if (!loadingMsg)
+        loadingMsg = `Started refreshing ${this.client.interactionArray.length} slash commands...`;
+      else {
+        if (loadingMsg.includes("{amount}"))
+          loadingMsg = loadingMsg.replace(
+            "{amount}",
+            this.client.interactionArray.length
+          );
+      }
+      if (!successMsg)
+        successMsg = `Refreshed ${this.client.interactionArray.length} slash commands!`;
+      else {
+        if (successMsg.includes("{amount}"))
+          successMsg = successMsg.replace(
+            "{amount}",
+            this.client.interactionArray.length
+          );
+      }
       (async () => {
         try {
-          console.log(
-            `${chalk.red(`/`)} ${chalk.redBright(
-              ` Started refreshing ${this.client.interactionArray.length} slash commands...`
-            )}`
-          );
+          console.log(`${chalk.red(`${loadingMsg}`)}`);
           await rest.put(Routes.applicationCommands(clientId), {
             body: this.client.interactionArray,
           });
-          console.log(
-            `${chalk.green(`/`)} ${chalk.greenBright(
-              `Refreshed ${this.client.interactionArray.length} slash commands!`
-            )}`
-          );
+          console.log(`${chalk.green(`${successMsg}`)}`);
         } catch (e) {
           console.log(e);
         }

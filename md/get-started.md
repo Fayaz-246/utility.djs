@@ -55,7 +55,12 @@ utilClient.setPresence({
 ### Creating Handlers
 
 ```js
-utilClient.interactionHandler(`./commands`, "your client id");
+utilClient.interactionHandler({
+  clientId: "YOUR CLIENT ID",
+  path: "./commands",
+  loadingMessage: "Refreshing {amount} / commands...", // {amount} is the number of slash commands
+  successMessage: "Refreshed {amount} / commands!",
+});
 utilClient.eventHandler(`./events`);
 utilClient.buttonHandler(`./buttons`);
 utilClient.modalHandler(`./modals`);
