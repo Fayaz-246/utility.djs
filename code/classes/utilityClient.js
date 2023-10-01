@@ -24,6 +24,7 @@ class UtilityClient {
     if (!obj.activities.text)
       throw Error("NO ACTIVITY TEXT PROVIDED [UTILITY.DJS]");
     if (!obj.message) throw Error("NO READY MESSAGE [UTILITY.DJS]");
+    let sendMessage = obj.message;
     const bot = this.client;
     if (!["online", "dnd", "invis", "idle"].some((s) => obj.state === s))
       throw Error("INVALID STATE [UTILITY.DJS]");
@@ -47,7 +48,17 @@ class UtilityClient {
     if (type === "watching") typeOf = ActivityType.Watching;
 
     bot.once(Events.ClientReady, async () => {
-      console.log(chalk.blue(`${obj.message}`));
+      if (sendMessage.includes("{tag}"))
+        sendMessage = sendMessage.replace("{tag}", bot.user.tag);
+      if (sendMessage.includes("{id}"))
+        sendMessage = sendMessage.replace("{id}", bot.user.id);
+      if (sendMessage.includes("{servers}"))
+        sendMessage = sendMessage.replace("{servers}", bot.guilds.cache.size);
+      if (sendMessage.includes("{username}"))
+        sendMessage = sendMessage.replace("{username}", bot.user.username);
+      if (sendMessage.includes("{members}"))
+        sendMessage = sendMessage.replace("{members}", bot.users.cache.size);
+      console.log(chalk.blue(`${sendMessage}`));
       bot.user.setPresence({
         status: stateOf,
         activities: [

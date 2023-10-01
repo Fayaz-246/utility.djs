@@ -50,6 +50,8 @@ utilClient.setPresence({
 
 > _Text is the message after the type._
 
+> _You can add `{tag}`, `{username}`, `{id}`, `{servers]` and `{members}` in message to show their respective things!_
+
 ### Creating Handlers
 
 ```js
