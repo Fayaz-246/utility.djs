@@ -8,6 +8,8 @@
 npm install utility.djs discord.js
 ```
 
+**[Support](https://discord.gg/xbrYnd9dqe)**
+
 ## Creating the bot
 
 > **In your main file probbably `index.js`**
