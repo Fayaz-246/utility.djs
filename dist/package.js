@@ -3,21 +3,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.textCommandReciver = exports.selectMenuReciver = exports.modalReciver = exports.buttonReciver = exports.interactionReciver = exports.CommandBuilder = exports.helpEmbed = exports.Connector = exports.UtilityClient = void 0;
 const utilityClient_1 = __importDefault(require("./classes/utilityClient"));
+exports.UtilityClient = utilityClient_1.default;
 const recivers_1 = require("./tools/recivers");
+Object.defineProperty(exports, "interactionReciver", { enumerable: true, get: function () { return recivers_1.interactionReciver; } });
+Object.defineProperty(exports, "buttonReciver", { enumerable: true, get: function () { return recivers_1.buttonReciver; } });
+Object.defineProperty(exports, "modalReciver", { enumerable: true, get: function () { return recivers_1.modalReciver; } });
+Object.defineProperty(exports, "selectMenuReciver", { enumerable: true, get: function () { return recivers_1.selectMenuReciver; } });
+Object.defineProperty(exports, "textCommandReciver", { enumerable: true, get: function () { return recivers_1.textCommandReciver; } });
 const help_1 = require("./classes/help");
+Object.defineProperty(exports, "helpEmbed", { enumerable: true, get: function () { return help_1.helpEmbed; } });
 const connection_1 = require("./classes/connection");
+Object.defineProperty(exports, "Connector", { enumerable: true, get: function () { return connection_1.Connector; } });
 const Command_1 = require("./classes/Command");
-module.exports = {
-    UtilityClient: utilityClient_1.default,
-    // Classes
-    Connector: connection_1.Connector,
-    helpEmbed: help_1.helpEmbed,
-    CommandBuilder: Command_1.CommandBuilder,
-    // Functions
-    interactionReciver: recivers_1.interactionReciver,
-    buttonReciver: recivers_1.buttonReciver,
-    modalReciver: recivers_1.modalReciver,
-    selectMenuReciver: recivers_1.selectMenuReciver,
-    textCommandReciver: recivers_1.textCommandReciver,
-};
+Object.defineProperty(exports, "CommandBuilder", { enumerable: true, get: function () { return Command_1.CommandBuilder; } });

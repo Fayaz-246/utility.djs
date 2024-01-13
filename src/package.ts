@@ -10,7 +10,7 @@ import { helpEmbed } from "./classes/help";
 import { Connector } from "./classes/connection";
 import { CommandBuilder } from "./classes/Command";
 
-module.exports = {
+export {
   UtilityClient,
 
   // Classes
