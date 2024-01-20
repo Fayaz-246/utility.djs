@@ -1,3 +1,5 @@
+# OUTDATED - WILL UPDATE SOON
+
 # Getting started with Utility.djs
 
 ## Installing utility.djs and discord.js
