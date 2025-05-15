@@ -29,6 +29,7 @@ interface PresenceOptions {
     message: string;
   };
   sendMessage: string;
+  function?: Function;
 }
 
 interface InteractionHandlerOptions {
@@ -37,6 +38,7 @@ interface InteractionHandlerOptions {
   loadingMessage?: string;
   successMessage?: string;
 }
+
 
 export default class UtilityClient extends Client {
   public EmbedColor: ColorResolvable;
@@ -81,7 +83,7 @@ export default class UtilityClient extends Client {
     if (!obj.activities.type)
       throw new Error("NO ACTIVITY TYPE PROVIDED [UTILITY.DJS]");
     if (!obj.activities.message)
-      throw new Error("NO ACTIVITY TEXT PROVIDED [UTILITY.DJS]");
+      throw new Error("NO ACTIVITY MESSAGE PROVIDED [UTILITY.DJS]");
     if (!obj.sendMessage) throw new Error("NO READY MESSAGE [UTILITY.DJS]");
 
     this.once(Events.ClientReady, async () => {
@@ -106,6 +108,8 @@ export default class UtilityClient extends Client {
           },
         ],
       });
+      console.log('[UTILITY] Executing ready function...')
+      if(obj.function) obj.function();
     });
   }
 

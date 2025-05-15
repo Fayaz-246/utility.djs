@@ -13,6 +13,7 @@ interface PresenceOptions {
         message: string;
     };
     sendMessage: string;
+    function?: Function;
 }
 interface InteractionHandlerOptions {
     path: string;

@@ -47,7 +47,7 @@ class UtilityClient extends discord_js_1.Client {
         if (!obj.activities.type)
             throw new Error("NO ACTIVITY TYPE PROVIDED [UTILITY.DJS]");
         if (!obj.activities.message)
-            throw new Error("NO ACTIVITY TEXT PROVIDED [UTILITY.DJS]");
+            throw new Error("NO ACTIVITY MESSAGE PROVIDED [UTILITY.DJS]");
         if (!obj.sendMessage)
             throw new Error("NO READY MESSAGE [UTILITY.DJS]");
         this.once(discord_js_1.Events.ClientReady, async () => {
@@ -73,6 +73,9 @@ class UtilityClient extends discord_js_1.Client {
                     },
                 ],
             });
+            console.log('[UTILITY] Executing ready function...');
+            if (obj.function)
+                obj.function();
         });
     }
     interactionHandler(obj) {

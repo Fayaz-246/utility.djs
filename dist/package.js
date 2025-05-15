@@ -3,9 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.textCommandReciver = exports.selectMenuReciver = exports.modalReciver = exports.buttonReciver = exports.interactionReciver = exports.CommandBuilder = exports.helpEmbed = exports.Connector = exports.UtilityClient = void 0;
+exports.textCommandReciver = exports.selectMenuReciver = exports.modalReciver = exports.buttonReciver = exports.interactionReciver = exports.CommandBuilder = exports.helpEmbed = exports.Connector = exports.Dash = exports.UtilityClient = void 0;
 const utilityClient_1 = __importDefault(require("./classes/utilityClient"));
 exports.UtilityClient = utilityClient_1.default;
+const Dashboard_1 = __importDefault(require("./classes/Dashboard"));
+exports.Dash = Dashboard_1.default;
 const recivers_1 = require("./tools/recivers");
 Object.defineProperty(exports, "interactionReciver", { enumerable: true, get: function () { return recivers_1.interactionReciver; } });
 Object.defineProperty(exports, "buttonReciver", { enumerable: true, get: function () { return recivers_1.buttonReciver; } });

@@ -1,4 +1,5 @@
 import UtilityClient from "./classes/utilityClient";
+import Dash from "./classes/Dashboard"
 import {
   interactionReciver,
   buttonReciver,
@@ -12,6 +13,7 @@ import { CommandBuilder } from "./classes/Command";
 
 export {
   UtilityClient,
+  Dash,
 
   // Classes
   Connector,
