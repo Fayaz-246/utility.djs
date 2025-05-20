@@ -1,15 +1,9 @@
-import { Message } from "discord.js";
-import Client from "./utilityClient";
-type ExecuteFunction = (message: Message, args: string[], client: Client) => void;
-interface CommandOptions {
-    name: string;
-    description: string;
-    execute: ExecuteFunction;
-}
 declare class CommandBuilder {
-    name: string;
-    description: string;
-    execute: ExecuteFunction;
-    constructor(options: CommandOptions);
+    private _name;
+    private _description;
+    setName(name: string): this;
+    setDescription(description: string): this;
+    get name(): string;
+    get description(): string;
 }
 export { CommandBuilder };

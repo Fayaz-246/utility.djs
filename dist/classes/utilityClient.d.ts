@@ -1,26 +1,5 @@
-import { Client, ActivityType, Collection, Partials, BitFieldResolvable, GatewayIntentsString, PresenceStatusData, ColorResolvable } from "discord.js";
-interface UtilityClientOptions {
-    Token: string;
-    EmbedColor: ColorResolvable;
-    Intents?: BitFieldResolvable<GatewayIntentsString, number>;
-    Partials?: Partials[];
-    Prefix?: string;
-}
-interface PresenceOptions {
-    state: PresenceStatusData | undefined;
-    activities: {
-        type: ActivityType;
-        message: string;
-    };
-    sendMessage: string;
-    function?: Function;
-}
-interface InteractionHandlerOptions {
-    path: string;
-    clientId: string;
-    loadingMessage?: string;
-    successMessage?: string;
-}
+import { Client, Collection, ColorResolvable } from "discord.js";
+import { UtilityClientOptions, PresenceOptions, InteractionHandlerOptions } from "../interfaces/client";
 export default class UtilityClient extends Client {
     EmbedColor: ColorResolvable;
     interactions: Collection<string, any>;
@@ -39,4 +18,3 @@ export default class UtilityClient extends Client {
     selectMenuHandler(path: string): void;
     textCommandHandler(path: string): void;
 }
-export {};

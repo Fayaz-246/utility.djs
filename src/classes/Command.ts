@@ -1,27 +1,26 @@
-import { Message } from "discord.js";
-import Client from "./utilityClient";
-
-type ExecuteFunction = (
-  message: Message,
-  args: string[],
-  client: Client
-) => void;
-
-interface CommandOptions {
-  name: string;
-  description: string;
-  execute: ExecuteFunction;
-}
-
 class CommandBuilder {
-  public name: string;
-  public description: string;
-  public execute: ExecuteFunction;
+  private _name: string = "";
+  private _description: string = "";
 
-  constructor(options: CommandOptions) {
-    this.name = options.name;
-    this.description = options.description;
-    this.execute = options.execute;
+  public setName(name: string): this {
+    if (!name.trim()) throw new TypeError("Command name cannot be empty");
+    this._name = name;
+    return this;
+  }
+
+  public setDescription(description: string): this {
+    if (!description.trim())
+      throw new TypeError("Command description cannot be empty");
+    this._description = description;
+    return this;
+  }
+
+  public get name(): string {
+    return this._name;
+  }
+
+  public get description(): string {
+    return this._description;
   }
 }
 

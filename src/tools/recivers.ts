@@ -90,7 +90,7 @@ const selectMenuReciver = async (client: Client, interaction: Interaction) => {
 const textCommandReciver = async (
   client: Client,
   message: Message,
-  prefix: string
+  prefix: string,
 ) => {
   if (!client) throw TypeError("INVALID INTERACTION [UTILITY.DJS]");
   if (!message) throw TypeError("INVALID MESSAGE [UTILITY.DJS]");

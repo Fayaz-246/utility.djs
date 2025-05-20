@@ -1,44 +1,20 @@
 import {
   Client,
-  ActivityType,
   Collection,
-  Partials,
-  BitFieldResolvable,
-  GatewayIntentsString,
   Events,
-  PresenceStatusData,
   REST,
   Routes,
   ColorResolvable,
 } from "discord.js";
+import {
+  UtilityClientOptions,
+  PresenceOptions,
+  InteractionHandlerOptions,
+} from "../interfaces/client";
 import chalk from "chalk";
 import fs from "fs";
-
-interface UtilityClientOptions {
-  Token: string;
-  EmbedColor: ColorResolvable;
-  Intents?: BitFieldResolvable<GatewayIntentsString, number>;
-  Partials?: Partials[];
-  Prefix?: string;
-}
-
-interface PresenceOptions {
-  state: PresenceStatusData | undefined;
-  activities: {
-    type: ActivityType;
-    message: string;
-  };
-  sendMessage: string;
-  function?: Function;
-}
-
-interface InteractionHandlerOptions {
-  path: string;
-  clientId: string;
-  loadingMessage?: string;
-  successMessage?: string;
-}
-
+import log from "../utils/log";
+import error from "../utils/error";
 
 export default class UtilityClient extends Client {
   public EmbedColor: ColorResolvable;
@@ -52,10 +28,10 @@ export default class UtilityClient extends Client {
   public prefix: string;
 
   constructor(obj: UtilityClientOptions) {
-    if (!obj) throw new Error("INVALID CONSTRUCTOR OPTIONS [UTILITY.DJS]");
-    if (!obj.Token) throw new Error("INVALID TOKEN [UTILITY.DJS]");
+    if (!obj) throw new Error("[UTILITY.DJS] INVALID CONSTRUCTOR OPTIONS");
+    if (!obj.Token) throw new Error("[UTILITY.DJS] INVALID TOKEN");
     if (!obj.EmbedColor)
-      throw new Error("NO EMBED COLOR PROVIDED [UTILITY.DJS]");
+      throw new Error("[UTILITY.DJS] NO EMBED COLOR PROVIDED");
 
     super({
       intents: obj.Intents ?? ["Guilds", "GuildMembers", "GuildMessages"],
@@ -76,15 +52,15 @@ export default class UtilityClient extends Client {
   }
 
   setPresence(obj: PresenceOptions) {
-    if (!obj) throw new Error("INVALID OPTIONS [UTILITY.DJS]");
-    if (!obj.state) throw new Error("NO STATE PROVIDED [UTILITY.DJS]");
+    if (!obj) throw new Error("[UTILITY.DJS] INVALID OPTIONS ");
+    if (!obj.state) throw new Error("[UTILITY.DJS] NO STATE PROVIDED");
     if (!obj.activities)
-      throw new Error("NO ACTIVITIES PROVIDED [UTILITY.DJS]");
+      throw new Error("[UTILITY.DJS] NO ACTIVITIES PROVIDED");
     if (!obj.activities.type)
-      throw new Error("NO ACTIVITY TYPE PROVIDED [UTILITY.DJS]");
+      throw new Error("[UTILITY.DJS] NO ACTIVITY TYPE PROVIDED");
     if (!obj.activities.message)
-      throw new Error("NO ACTIVITY MESSAGE PROVIDED [UTILITY.DJS]");
-    if (!obj.sendMessage) throw new Error("NO READY MESSAGE [UTILITY.DJS]");
+      throw new Error("[UTILITY.DJS] NO ACTIVITY MESSAGE PROVIDED");
+    if (!obj.sendMessage) throw new Error("[UTILITY.DJS] NO READY MESSAGE");
 
     this.once(Events.ClientReady, async () => {
       if (!this.user) return;
@@ -99,6 +75,7 @@ export default class UtilityClient extends Client {
       };
 
       console.log(inter(obj.sendMessage));
+
       this.user.setPresence({
         status: obj.state,
         activities: [
@@ -108,16 +85,18 @@ export default class UtilityClient extends Client {
           },
         ],
       });
-      console.log('[UTILITY] Executing ready function...')
-      if(obj.function) obj.function();
+      if (obj.function) {
+        log("med", "Executing ready function...");
+        obj.function();
+      }
     });
   }
 
   interactionHandler(obj: InteractionHandlerOptions) {
     const { path, clientId, loadingMessage, successMessage } = obj;
 
-    if (!path) throw new Error("NO PATH PROVIDED [UTILITY.DJS]");
-    if (!clientId) throw new Error("NO CLIENT ID PROVIDED [UTILITY.DJS]");
+    if (!path) throw new Error("[UTILITY.DJS] NO PATH PROVIDED");
+    if (!clientId) throw new Error("[UTILITY.DJS] NO CLIENT ID PROVIDED");
 
     (async () => {
       const commandFolders = fs.readdirSync(path);
@@ -133,46 +112,43 @@ export default class UtilityClient extends Client {
             this.interactions.set(command.data.name, command);
             this.interactionArray.push(command.data.toJSON());
           } else {
-            console.log(
-              chalk.yellow(`${command} is missing property "data" or "execute"`)
-            );
+            log("med", `${command} is missing property "data" or "execute"`);
           }
         }
       }
 
-      if (!this.token) throw new Error("Invalid token for REST request.");
-      const rest = new REST({
-        version: "9",
-      }).setToken(this.token);
+      if (!this.token) error("high", "INVALID TOKEN FOR REST REQUEST");
+
+      const rest = new REST({ version: "9" }).setToken(this.token!);
 
       const formattedLoadingMsg = loadingMessage
         ? loadingMessage.replace(
             "{amount}",
-            this.interactionArray.length.toString()
+            this.interactionArray.length.toString(),
           )
         : `Started refreshing ${this.interactionArray.length} slash commands...`;
 
       const formattedSuccessMsg = successMessage
         ? successMessage.replace(
             "{amount}",
-            this.interactionArray.length.toString()
+            this.interactionArray.length.toString(),
           )
         : `Refreshed ${this.interactionArray.length} slash commands!`;
 
       try {
-        console.log(`${chalk.red(`${formattedLoadingMsg}`)}`);
+        log("med", formattedLoadingMsg);
         await rest.put(Routes.applicationCommands(clientId), {
           body: this.interactionArray,
         });
-        console.log(`${chalk.green(`${formattedSuccessMsg}`)}`);
+        log("low", formattedSuccessMsg);
       } catch (e) {
-        console.log(e);
+        error("high", (e as Error).message);
       }
     })();
   }
 
   eventHandler(path: string) {
-    if (!path) throw new Error("NO PATH PROVIDED [UTILITY.DJS]");
+    if (!path) throw new Error("[UTILITY.DJS] NO PATH PROVIDED");
     const eventFiles = fs.readdirSync(path).filter((f) => f.endsWith(".js"));
 
     (async () => {
@@ -188,7 +164,7 @@ export default class UtilityClient extends Client {
   }
 
   buttonHandler(path: string) {
-    if (!path) throw new Error("INVALID PATH [UTILITY.DJS]");
+    if (!path) throw new Error("[UTILITY.DJS] INVALID PATH");
 
     const buttonFolder = fs.readdirSync(path);
     for (const file of buttonFolder) {
@@ -200,7 +176,7 @@ export default class UtilityClient extends Client {
   }
 
   modalHandler(path: string) {
-    if (!path) throw new Error("INVALID PATH [UTILITY.DJS]");
+    if (!path) throw new Error("[UTILITY.DJS] INVALID PATH");
     const modalFolder = fs.readdirSync(path);
     for (const file of modalFolder) {
       const modal = require(`../../../.${path}/${file}`);
@@ -211,7 +187,7 @@ export default class UtilityClient extends Client {
   }
 
   selectMenuHandler(path: string) {
-    if (!path) throw new Error("INVALID PATH [UTILITY.DJS]");
+    if (!path) throw new Error("[UTILITY.DJS] INVALID PATH");
     this.SelectMenus = new Collection();
     const menuFolder = fs.readdirSync(path);
     for (const file of menuFolder) {
@@ -223,7 +199,7 @@ export default class UtilityClient extends Client {
   }
 
   textCommandHandler(path: string) {
-    if (!path) throw new Error("NO PATH PROVIDED [UTILITY.DJS]");
+    if (!path) throw new Error("[UTILITY.DJS] NO PATH PROVIDED");
     const commandFolders = fs.readdirSync(path);
     for (const folder of commandFolders) {
       const commandFiles = fs
@@ -232,8 +208,8 @@ export default class UtilityClient extends Client {
 
       for (const file of commandFiles) {
         const command = require(`../../../.${path}/${folder}/${file}`);
-        if (command.name && command.execute) {
-          this.textCommands.set(command.name, command);
+        if (command.data?.name && command.execute) {
+          this.textCommands.set(command.data.name, command);
         } else {
           console.log(chalk.yellow(`${command} is missing CommandBuilder();`));
         }
