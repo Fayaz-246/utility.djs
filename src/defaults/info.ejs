@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title><%= client.user.username %> - Information</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      :root {
+        --bg: #121212;
+        --surface: #1e1e1e;
+        --accent: #7f00ff;
+        --text: #f0f0f0;
+        --muted: #bbbbbb;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', sans-serif;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        display: flex;
+        min-height: 100vh;
+      }
+
+      .sidebar {
+        width: 250px;
+        background: var(--surface);
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+      }
+
+      .bot-info {
+        text-align: center;
+      }
+
+      .bot-info img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        margin-bottom: 10px;
+      }
+
+      .bot-info h2 {
+        font-size: 1.2em;
+        font-weight: 600;
+      }
+
+      .nav {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .nav a {
+        text-decoration: none;
+        color: var(--text);
+        background: #2c2c2c;
+        padding: 10px 15px;
+        border-radius: 8px;
+        transition: background 0.3s ease;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .nav a:hover {
+        background: var(--accent);
+      }
+
+      .main-content {
+        flex-grow: 1;
+        padding: 30px;
+      }
+
+      h1 {
+        font-size: 2em;
+        margin-bottom: 10px;
+      }
+
+      h2 {
+        font-size: 1.5em;
+      }
+
+      p {
+        color: #FEFEFE;
+        font-size: 1em;
+      }
+
+      .lucide {
+        width: 18px;
+        height: 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <aside class="sidebar">
+      <div class="bot-info">
+        <img src="<%= client.user.displayAvatarURL({extension:'png'}) %>" alt="Bot Avatar" />
+        <h2><%= client.user.username %></h2>
+      </div>
+      <nav class="nav">
+        <a href="/dashboard"><i data-lucide="home" class="lucide"></i>Home</a>
+        <a href="/dashboard/info"><i data-lucide="info" class="lucide"></i>Info</a>
+        <a href="/dashboard/console"><i data-lucide="terminal" class="lucide"></i>Console</a>
+      </nav>
+    </aside>
+    <main class="main-content">
+      <h1><%= client.user.username %> Developer Dashboard</h1>
+      <h2> Client Info </h2>
+      <p>
+        Client ID: <%= client.user.id %> <br>
+        Total Commands: <%= client.interactions.size %> <br>
+        Total Guilds: <%= client.guilds.cache.size %> <br>
+        Uptime: <%= uptime %>
+      </p>
+      <h2> Dev Info </h2>
+      <p>
+      OS: <%= os %> <br>
+      CPU Usage: <%= cpuUsage %>% <br>
+      Memory Usage: <%= memUsage %> <br>
+      </p>
+    </main>
+
+    <script>
+      lucide.createIcons();
+    </script>
+  </body>
+</html>

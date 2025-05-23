@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title><%= botUsername %> - Console</title>
+    
+    <!-- Lucide icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- xterm.js styles -->
+    <link rel="stylesheet" href="https://unpkg.com/xterm/css/xterm.css" />
+
+    <style>
+      :root {
+        --bg: #121212;
+        --surface: #1e1e1e;
+        --accent: #7f00ff;
+        --text: #f0f0f0;
+        --muted: #bbbbbb;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', sans-serif;
+        overflow-x: hidden;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        display: flex;
+        min-height: 100vh;
+      }
+
+      .sidebar {
+        width: 250px;
+        background: var(--surface);
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+      }
+
+      .bot-info {
+        text-align: center;
+      }
+
+      .bot-info img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        margin-bottom: 10px;
+      }
+
+      .bot-info h2 {
+        font-size: 1.2em;
+        font-weight: 600;
+      }
+
+      .nav {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .nav a {
+        text-decoration: none;
+        color: var(--text);
+        background: #2c2c2c;
+        padding: 10px 15px;
+        border-radius: 8px;
+        transition: background 0.3s ease;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .nav a:hover {
+        background: var(--accent);
+      }
+
+      .main-content {
+        flex-grow: 1;
+        padding: 30px;
+      }
+
+      h1 {
+        font-size: 2em;
+        margin-bottom: 20px;
+      }
+
+      .terminal-wrapper {
+        background: #101010;
+        border: 1px solid #2a2a2a;
+        border-radius: 10px;
+        height: 400px;
+        overflow: hidden;
+        margin-bottom: 20px;
+        padding: 10px;
+        box-sizing: border-box;
+        width: 100%; /* or max-width as needed */
+      }
+      .lucide {
+        width: 18px;
+        height: 18px;
+      }
+
+      .terminal-wrapper .xterm .xterm-screen {
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <aside class="sidebar">
+      <div class="bot-info">
+        <img src="<%= botAvatar %>" alt="Bot Avatar" />
+        <h2><%= botUsername %></h2>
+      </div>
+      <nav class="nav">
+        <a href="/dashboard"><i data-lucide="home" class="lucide"></i>Home</a>
+        <a href="/dashboard/info"><i data-lucide="info" class="lucide"></i>Info</a>
+        <a href="/dashboard/console"><i data-lucide="terminal" class="lucide"></i>Console</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <h1>Console</h1>
+      <div class="terminal-wrapper" id="terminal"></div>
+
+
+    <form id="command-form" style="display: flex; gap: 10px; margin-top: 10px;">
+      <input
+        type="text"
+        id="command-input"
+        placeholder="Enter command..."
+        autocomplete="off"
+        style="flex: 1; padding: 8px; border-radius: 6px; border: 1px solid #444; background: #222; color: #eee;"/>
+  <button type="submit" style="padding: 8px 16px; border-radius: 6px; background: var(--accent); border: none; color: white; cursor: pointer;">
+    Send
+  </button>
+</form>
+    </main>
+
+    <!-- xterm.js scripts -->
+    <script src="https://unpkg.com/xterm/lib/xterm.js"></script>
+    <script src="https://unpkg.com/xterm-addon-fit/lib/xterm-addon-fit.js"></script>
+
+    <script>
+      lucide.createIcons();
+
+      const term = new Terminal({
+        scrollback: 1000,
+        fontSize: 14,
+        theme: {
+          background: "#101010",
+          foreground: "#f0f0f0"
+        },
+        fontFamily: "monospace",
+      });
+
+      const fitAddon = new FitAddon.FitAddon();
+      term.loadAddon(fitAddon);
+
+      term.open(document.getElementById("terminal"));
+      fitAddon.fit();
+
+      const socket = new WebSocket(`ws://${location.host}/ws/console`);
+
+      socket.onopen = () => {
+        term.writeln('🔌 Connected to terminal');
+      };
+
+      socket.onmessage = (event) => {
+        term.writeln(`${event.data}`);
+      };
+
+      socket.onerror = (err) => {
+        term.writeln('\r\n⚠️ WebSocket error occurred');
+        console.error(err);
+      };
+
+      socket.onclose = () => {
+        term.writeln('\r\n🔒 Connection closed');
+      };
+
+      term.onData((data) => {
+        socket.send(data);
+      });
+
+      window.addEventListener('resize', () => {
+        fitAddon.fit();
+      });
+
+      window.addEventListener('load', () => {
+        fitAddon.fit();
+      });
+
+      
+    const form = document.getElementById('command-form');
+    const input = document.getElementById('command-input');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const command = input.value.trim();
+      if (!command) return;
+
+      socket.send(command + '\n');  // Send command with newline to backend
+      input.value = '';
+  });
+    </script>
+  </body>
+</html>
+

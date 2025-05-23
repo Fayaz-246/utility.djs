@@ -1,9 +1,19 @@
 <h1 align="center">Utility.djs</h1>
-<div align="center">
-  <a href="https://www.npmjs.com/package/utility.djs"><img src="https://img.shields.io/npm/dt/utility.djs.svg?maxAge=3600" alt="DOWNLOADS"></a>
-  <a href="https://www.npmjs.com/package/utility.djs"><img src="https://img.shields.io/npm/v/utility.djs.svg?maxAge=3600" alt="NPM version" /></a>
-  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-red.svg" alt="LICENSE"></a>
-</div>
+
+<p align="center">
+  <a href="https://discord.gg/5zYxdy4Qad">
+    <img src="https://img.shields.io/discord/1375417146036981812.svg?style=flat-square&label=Discord&logo=discord&color=5865F2&logoColor=white" alt="Discord">
+  </a>
+  <a href="https://www.npmjs.com/package/utility.djs">
+    <img src="https://img.shields.io/npm/dt/utility.djs.svg?style=flat-square&maxAge=3600" alt="Downloads">
+  </a>
+  <a href="https://www.npmjs.com/package/utility.djs">
+    <img src="https://img.shields.io/npm/v/utility.djs.svg?style=flat-square&maxAge=3600" alt="NPM version">
+  </a>
+  <a href="https://opensource.org/licenses/MIT">
+    <img src="https://img.shields.io/badge/License-MIT-red.svg?style=flat-square" alt="License">
+  </a>
+</p>
 
 ## About
 
@@ -11,4 +21,5 @@
 
 ## Documentation
 
-<b>You can check out the docs and know how to get started over [here](https://utilitydjsdocs.vercel.app/)</b>
+**You can check out the docs and know how to get started over [here](https://utilitydjsdocs.vercel.app/).**
+

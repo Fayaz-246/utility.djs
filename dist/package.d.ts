@@ -1,3 +1,11 @@
+import "express-session";
+declare module "express-session" {
+    interface SessionData {
+        user?: {
+            test: string;
+        };
+    }
+}
 import UtilityClient from "./classes/utilityClient";
 import Dash from "./classes/Dashboard";
 import { interactionReciver, buttonReciver, modalReciver, selectMenuReciver, textCommandReciver } from "./tools/recivers";
